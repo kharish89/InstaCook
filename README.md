@@ -40,6 +40,12 @@ flowchart TD
 
 ## Technologies Used
 
+1. [yt-dlp Youtube downloader](https://github.com/yt-dlp/yt-dlp) - Download and extract audio from youtube video link.
+2. [ffmpeg audio conversion](https://ffmpeg.org) - Convert the extracted audio to 16khz sample rate which is required by openai/whisper.
+3. [transformer speech2text](https://huggingface.co/learn/audio-course/en/chapter2/asr_pipeline) - OpenApi open source whisper model (until groq enables public access for their speech2text api).
+4. [groq fast ai inference](https://console.groq.com/docs/libraries) - Llama3-70b-8192 using groq api to extract recipe title, instructions and ingredients; generate instacart api request
+5. [instacart developer api](https://docs.instacart.com/developer_platform_api/guide/tutorials/create_a_recipe_page) - Creating a recipe page with developer api.
+
 ## Installation
 
 1. Create a new conda environment using
@@ -60,8 +66,13 @@ conda activate insta-cook
 pip install -r requirements.txt
 ```
 
-4. Run the python script
+## Usage
 
+1. Create a [groq account](https://console.groq.com) and get api key.
+2. Input the generated key in `.env` file in the project directory and add the value as `GROQ_API_KEY=<your_generated_key>` 
+>Note: I have delete my api key ;)
+3. Follow installation instructions above
+4. Run 
 ```bash
 python yt_instacart_recipie.py
 ```
