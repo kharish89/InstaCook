@@ -4,17 +4,19 @@ This document provides an overview of the data flow for our web application, Ins
 
 ## Table of Contents
 - [Introduction](#introduction)
+- [Demo video](#demo-video)
 - [Data Flow Steps](#data-flow-steps)
 - [Flowchart](#flowchart)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
 InstaCook takes a video URL input from the user, extracts the audio, transcribes it, processes the transcription with Groq to generate a JSON response, and sends this JSON to the Instacart API. The API returns an ingredient list that is displayed in the UI.
+
+## Demo Video
+[Loom link](https://www.loom.com/share/5b4dfc9c676241f0bb6562d5df001b6b)
 
 ## Data Flow Steps
 
