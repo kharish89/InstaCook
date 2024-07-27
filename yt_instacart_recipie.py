@@ -1,3 +1,4 @@
+import time
 import yt_dlp
 import gradio as gr
 from groq import Groq
@@ -54,6 +55,27 @@ def transcribe(input_audio):
     transcriber = pipeline(model="openai/whisper-base")
     transcript = transcriber(input_audio)["text"]
     return transcript
+
+# trascribe using groq
+def transcribe_groq(input_audio):
+    """
+    Transcribes using groq speach to text api
+    """
+    filename = os.path.dirname(__file__) + "/" + input_audio + ".wav"
+    print(filename)
+    #os.path.dirname(__file__) + "/sample_audio.m4a"
+
+    with open(filename, "rb") as file:
+        transcription = groq_client.audio.transcriptions.create(
+        file=(filename, file.read()),
+        model="whisper-large-v3",
+        prompt="Specify context or spelling",  # Optional
+        response_format="json",  # Optional
+        language="en",  # Optional
+        temperature=0.0  # Optional
+        )
+        print(transcription.text)
+        return transcription.text
 
 # get the transcribed text to groq client and get a instacart api response
 def instacartRecipeAPI(text):
@@ -174,11 +196,30 @@ def process_instacart_recipe(url):
     # Convert the audio to wav with 16khz sample rate using ffmpeg
     converted_audio_filename = convert_to_wav(OUTPUT_FILE_NAME + ".wav")
     
+    # Start a timer to measure the time it takes to transcribe the audio
+    start_time = time.time()
+    
     # Transcribe the audio using Whisper
-    transcript = transcribe(converted_audio_filename)
+    # transcript = transcribe(converted_audio_filename)
+    
+    # Transcribe the audio using Whisper from groq
+    transcript = transcribe_groq(converted_audio_filename)
+    
+    # Stop the timer
+    end_time = time.time()
+    
+    print(f"Time taken to transcribe the audio: {end_time - start_time} seconds")
+    
+    # start a timer to measure the time it takes to get the instacart api request
+    start_time = time.time()
     
     # Get the transcribed text to groq client and get a instacart recipe api request
     instacart_api_request = instacartRecipeAPI(transcript)
+    
+    # Stop the timer
+    end_time = time.time()
+    
+    print(f"Time taken to get the instacart api request: {end_time - start_time} seconds")
     
     return instacart_api_request
     
